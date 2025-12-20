@@ -1,0 +1,573 @@
+:root {
+        --primary: #6366f1;
+        --primary-gradient: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+        --glass-bg: rgba(255, 255, 255, 0.75);
+        --glass-border: rgba(255, 255, 255, 0.5);
+        --text-dark: #1e293b;
+        --text-light: #64748b;
+        --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+          0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        /* Safe area for iPhone notch/home bar */
+        --safe-top: env(safe-area-inset-top);
+        --safe-bottom: env(safe-area-inset-bottom);
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        -webkit-tap-highlight-color: transparent; /* Removes blue tap box on mobile */
+      }
+
+      body {
+        font-family: "Plus Jakarta Sans", sans-serif;
+        height: 100vh;
+        /* Fix for mobile browsers address bar scroll */
+        height: 100dvh;
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+        background-size: 400% 400%;
+        animation: gradientBG 15s ease infinite;
+      }
+
+      @keyframes gradientBG {
+        0% {
+          background-position: 0% 50%;
+        }
+        50% {
+          background-position: 100% 50%;
+        }
+        100% {
+          background-position: 0% 50%;
+        }
+      }
+
+      /* ORBS (Background Decoration) */
+      .orb {
+        position: fixed; /* Fixed so they don't scroll on mobile */
+        border-radius: 50%;
+        filter: blur(80px);
+        z-index: 0;
+        opacity: 0.6;
+        animation: floatOrb 10s ease-in-out infinite;
+        pointer-events: none;
+      }
+      .orb-1 {
+        width: 60vw;
+        height: 60vw;
+        background: #ff9a9e;
+        top: -10%;
+        left: -10%;
+      }
+      .orb-2 {
+        width: 70vw;
+        height: 70vw;
+        background: #a18cd1;
+        bottom: -10%;
+        right: -10%;
+        animation-delay: -5s;
+      }
+
+      @keyframes floatOrb {
+        0%,
+        100% {
+          transform: translateY(0) scale(1);
+        }
+        50% {
+          transform: translateY(20px) scale(1.1);
+        }
+      }
+
+      /* --- THE APP CONTAINER --- */
+      #device {
+        width: 390px;
+        height: 800px;
+        max-height: 90vh;
+        background: rgba(255, 255, 255, 0.85);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border-radius: 45px;
+        border: 1px solid var(--glass-border);
+        box-shadow: 0 0 0 8px rgba(255, 255, 255, 0.2),
+          0 50px 100px -20px rgba(50, 50, 93, 0.25),
+          inset 0 0 0 2px rgba(255, 255, 255, 0.5);
+        position: relative;
+        overflow: hidden;
+        z-index: 10;
+        transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+      }
+
+      /* The "Fake" Notch (Desktop Only) */
+      .notch {
+        position: absolute;
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 120px;
+        height: 30px;
+        background: #000;
+        border-bottom-left-radius: 16px;
+        border-bottom-right-radius: 16px;
+        z-index: 100;
+      }
+
+      /* --- SCREENS --- */
+      .screen {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        display: flex;
+        flex-direction: column;
+        opacity: 0;
+        pointer-events: none;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        transform: scale(0.95);
+        /* Handle notch area */
+        padding-top: var(--safe-top);
+        padding-bottom: var(--safe-bottom);
+      }
+
+      .screen.active {
+        opacity: 1;
+        pointer-events: all;
+        transform: scale(1);
+      }
+
+      /* 1. WELCOME SCREEN */
+      #welcome-screen {
+        justify-content: flex-end;
+        padding: 40px;
+        background: url("https://kpopping.com/documents/3f/3/300/240903-New-Jeans-Haerin-Seoul-Fashion-Week-documents-1.jpeg?v=e4b40")
+          center/cover;
+      }
+      #welcome-screen::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          to top,
+          rgba(0, 0, 0, 0.8) 0%,
+          rgba(0, 0, 0, 0) 60%
+        );
+      }
+      .welcome-text {
+        position: relative;
+        z-index: 2;
+        color: white;
+        margin-bottom: 40px;
+      }
+      .welcome-text h1 {
+        font-family: "Outfit", sans-serif;
+        font-size: 3.5rem;
+        line-height: 1;
+        margin-bottom: 10px;
+        text-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+      }
+
+      .cta-btn {
+        width: 100%;
+        padding: 18px;
+        border-radius: 20px;
+        border: none;
+        background: white;
+        color: var(--primary);
+        font-size: 1.1rem;
+        font-weight: 800;
+        cursor: pointer;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        position: relative;
+        overflow: hidden;
+        z-index: 2;
+      }
+      .cta-btn:active {
+        transform: scale(0.98);
+      }
+
+      /* 2. SELECTION SCREEN */
+      #selection-screen {
+        background: #f8fafc;
+      }
+
+      .header {
+        padding: 50px 25px 20px 25px; /* Top padding for desktop notch */
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .header h2 {
+        font-weight: 800;
+        font-size: 1.8rem;
+        color: var(--text-dark);
+        letter-spacing: -1px;
+      }
+
+      .grid-container {
+        padding: 10px 20px 100px 20px;
+        overflow-y: auto;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 15px;
+        scrollbar-width: none;
+      }
+      .grid-container::-webkit-scrollbar {
+        display: none;
+      }
+
+      .idol-card {
+        background: white;
+        border-radius: 25px;
+        overflow: hidden;
+        box-shadow: var(--shadow-sm);
+        position: relative;
+        cursor: pointer;
+        height: 200px; /* Fixed height for consistency */
+      }
+      .idol-card img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      .card-overlay {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+        padding: 15px;
+        color: white;
+      }
+      .role-badge {
+        font-size: 0.65rem;
+        background: rgba(255, 255, 255, 0.25);
+        backdrop-filter: blur(4px);
+        padding: 3px 8px;
+        border-radius: 10px;
+        text-transform: uppercase;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+      }
+
+      /* 3. CHAT SCREEN */
+      #chat-screen {
+        background: #fff;
+      }
+
+      .chat-nav {
+        padding: 50px 20px 15px 20px; /* Top padding for desktop notch */
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        z-index: 10;
+      }
+      .back-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: #f1f5f9;
+        border: none;
+        font-size: 1.2rem;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .chat-avatar-small {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 2px solid white;
+        box-shadow: var(--shadow-sm);
+      }
+      .chat-status h3 {
+        font-size: 1rem;
+        margin-bottom: 2px;
+      }
+      .active-dot {
+        width: 8px;
+        height: 8px;
+        background: #22c55e;
+        border-radius: 50%;
+        display: inline-block;
+        margin-right: 4px;
+      }
+      .status-text {
+        font-size: 0.75rem;
+        color: var(--text-light);
+      }
+
+      .messages-area {
+        flex: 1;
+        background: #f8fafc;
+        padding: 20px;
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        overscroll-behavior: contain; /* Prevents whole page scroll on mobile */
+      }
+      .msg {
+        max-width: 80%;
+        padding: 12px 16px;
+        border-radius: 20px;
+        font-size: 0.95rem;
+        line-height: 1.4;
+        animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        position: relative;
+      }
+      @keyframes popIn {
+        from {
+          opacity: 0;
+          transform: scale(0.9);
+        }
+        to {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+      .msg-idol {
+        align-self: flex-start;
+        background: white;
+        color: var(--text-dark);
+        border-bottom-left-radius: 4px;
+        box-shadow: var(--shadow-sm);
+      }
+      .msg-user {
+        align-self: flex-end;
+        background: var(--primary-gradient);
+        color: white;
+        border-bottom-right-radius: 4px;
+        box-shadow: 0 4px 10px rgba(99, 102, 241, 0.2);
+      }
+
+      .typing-bubble {
+        align-self: flex-start;
+        background: rgba(0, 0, 0, 0.05);
+        padding: 12px 16px;
+        border-radius: 20px;
+        display: none;
+        gap: 4px;
+        width: fit-content;
+        margin-bottom: 10px;
+        margin-left: 20px;
+      }
+      .dot {
+        width: 6px;
+        height: 6px;
+        background: #94a3b8;
+        border-radius: 50%;
+        animation: bounce 1.4s infinite ease-in-out both;
+      }
+      .dot:nth-child(1) {
+        animation-delay: -0.32s;
+      }
+      .dot:nth-child(2) {
+        animation-delay: -0.16s;
+      }
+      @keyframes bounce {
+        0%,
+        80%,
+        100% {
+          transform: scale(0);
+        }
+        40% {
+          transform: scale(1);
+        }
+      }
+
+      .input-zone {
+        padding: 15px 20px;
+        background: white;
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        border-top: 1px solid #f1f5f9;
+        /* Handle iPhone X+ Home Indicator */
+        padding-bottom: max(15px, var(--safe-bottom));
+      }
+      .input-wrapper {
+        flex: 1;
+        background: #f1f5f9;
+        border-radius: 25px;
+        padding: 4px 15px;
+        display: flex;
+        align-items: center;
+        transition: 0.3s;
+      }
+      .input-wrapper:focus-within {
+        background: white;
+        box-shadow: 0 0 0 2px var(--primary);
+      }
+      .chat-input {
+        flex: 1;
+        padding: 10px 0;
+        border: none;
+        background: transparent;
+        outline: none;
+        font-size: 1rem;
+      }
+
+      .send-btn {
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        border: none;
+        background: var(--primary-gradient);
+        color: white;
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        box-shadow: 0 4px 10px rgba(99, 102, 241, 0.3);
+      }
+      .send-btn:active {
+        transform: scale(0.9);
+      }
+      .send-btn svg {
+        width: 18px;
+        height: 18px;
+        fill: white;
+        margin-left: 3px;
+      }
+
+      /* =========================================
+           📱 MOBILE & RESPONSIVE MAGIC
+           ========================================= */
+      @media screen and (max-width: 480px) {
+        body {
+          /* Remove padding/margins to fill screen */
+          align-items: flex-start;
+          background: var(--primary-gradient); /* Fallback for slow devices */
+        }
+
+        #device {
+          /* Make the phone container fill the ACTUAL screen */
+          width: 100vw;
+          height: 100dvh; /* Dynamic Height for mobile browsers */
+          max-height: none;
+          border-radius: 0;
+          border: none;
+          box-shadow: none;
+          background: rgba(255, 255, 255, 0.95);
+        }
+
+        /* Hide the fake notch on real phones */
+        .notch {
+          display: none;
+        }
+
+        /* Fix spacing since we removed the fake notch */
+        .header {
+          padding-top: calc(20px + var(--safe-top));
+        }
+        .chat-nav {
+          padding-top: calc(15px + var(--safe-top));
+        }
+
+        /* Adjust grid for smaller screens */
+        .grid-container {
+          gap: 10px;
+          padding: 10px 15px 100px 15px;
+        }
+        .idol-card {
+          height: 180px;
+        }
+
+        /* Text Sizes */
+        .welcome-text h1 {
+          font-size: 3rem;
+        }
+      }
+
+      /* --- NEW FEATURE: LOVE METER --- */
+      .love-container {
+        margin-left: auto; /* Pushes to right */
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        background: rgba(255, 255, 255, 0.5);
+        padding: 5px 10px;
+        border-radius: 20px;
+        border: 1px solid white;
+      }
+
+      .love-heart {
+        width: 20px;
+        height: 20px;
+        fill: #e1e1e1; /* Empty color */
+        position: relative;
+        overflow: hidden;
+      }
+
+      .love-fill {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 0%; /* Starts empty */
+        background: #ff4757;
+        transition: height 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      }
+
+      /* --- NEW FEATURE: FLOATING HEARTS --- */
+      .floating-heart {
+        position: absolute;
+        font-size: 1.5rem;
+        animation: floatUp 1.5s ease-out forwards;
+        pointer-events: none;
+        z-index: 999;
+      }
+
+      @keyframes floatUp {
+        0% {
+          transform: translateY(0) scale(0.5);
+          opacity: 1;
+        }
+        100% {
+          transform: translateY(-100px) scale(1.5);
+          opacity: 0;
+        }
+      }
+
+      /* --- NEW FEATURE: PHOTO MESSAGE --- */
+      .msg-photo img {
+        max-width: 200px;
+        border-radius: 15px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        display: block;
+      }
+      /* --- NEW FEATURE: FILE UPLOAD --- */
+      .attach-btn {
+        padding: 10px;
+        cursor: pointer;
+        color: #94a3b8;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: 0.2s;
+        margin-right: 5px;
+      }
+      .attach-btn:hover {
+        color: var(--primary);
+        background: #f1f5f9;
+        border-radius: 50%;
+      }
+
+      /* Style for the image inside the chat bubble */
+      .msg-img-content {
+        max-width: 100%;
+        width: 200px;
+        border-radius: 15px;
+        display: block;
+        margin-bottom: 5px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      }
